@@ -1,0 +1,93 @@
+<% layout('plantillas/molde')%>
+<link rel="stylesheet" href="/stylesheets/stars.css">
+<div class="row">
+    <div class="col-6">
+        <div id="publicacionCarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <% publicacion.imagenes.forEach((img, i) => {  %>
+                <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+                    <img src="<%= img.url %>" class="d-block w-100" alt="">
+                </div>
+                <% }) %>
+                
+            </div>
+            <% if(publicacion.imagenes.length > 1) {%>
+            <a class="carousel-control-prev" href="#publicacionCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#publicacionCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Siguiente</span>
+            </a>
+            <% } %>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-titulo"><%= publicacion.titulo%></h5>
+                <p class="card-text"><%= publicacion.descripcion%></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Creada por <%= publicacion.autor.username%></li>
+            </ul>
+            <%  if( currentUsuario && publicacion.autor.equals(currentUsuario._id))  {%>
+            <div class="card-body">
+                <a class="card-link btn btn-info" href="/publicaciones/<%=publicacion._id%>/edit">Editar</a>
+                <form class="d-inline" action="/publicaciones/<%=publicacion._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+            <% } %>
+        </div>
+
+    </div>
+    <div class="col-6">
+
+        <% if(currentUsuario){ %>
+        <h2>Comentar</h2>
+        <form action="/publicaciones/<%=publicacion._id%>/comentarios" method="POST" class="mb-3 validated-form" novalidate>
+        
+            <fieldset class="starability-basic">
+                <input type="radio" id="no-rate" class="input-no-rate" name="comentario[rating]" value="1" checked
+                    aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="comentario[rating]" value="1" />
+                <label for="first-rate1" titulo="Terrible">1 estrella</label>
+                <input type="radio" id="first-rate2" name="comentario[rating]" value="2" />
+                <label for="first-rate2" titulo="Not good">2 estrellas</label>
+                <input type="radio" id="first-rate3" name="comentario[rating]" value="3" />
+                <label for="first-rate3" titulo="Average">3 estrellas</label>
+                <input type="radio" id="first-rate4" name="comentario[rating]" value="4" />
+                <label for="first-rate4" titulo="Very good">4 estrellas</label>
+                <input type="radio" id="first-rate5" name="comentario[rating]" value="5" />
+                <label for="first-rate5" titulo="Amazing">5 estrellas</label>
+            </fieldset>
+            <div class="mb-3">
+                <label class="form-label" for="body">Texto</label>
+                <textarea class="form-control" name="comentario[body]" id="body" cols="30" rows="3" required></textarea>
+                <div class="valid-feedback">
+                    ¡Válido!
+                </div>
+            </div>
+            <button class="btn btn-success">Enviar</button>
+        </form>
+        <% } %>
+        <% for(let comentario of publicacion.comentarios) { %>
+        <div class="card mb-3 ">
+            <div class="card-body">
+                <h5 class="card-title"> <%= comentario.autor.username%></h5>
+                <p class="starability-result" data-rating="<%=comentario.rating%>">
+                    Valoración: <%= comentario.rating %> estrellas
+                </p>
+                <p class="card-text">Comentario: <%= comentario.body %></p>
+                <%  if( currentUsuario && comentario.autor.equals(currentUsuario._id))  {%>
+                <form action="/publicaciones/<%=publicacion._id%>/comentarios/<%=comentario._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                </form>
+                <% } %>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+

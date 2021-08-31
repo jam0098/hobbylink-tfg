@@ -1,0 +1,28 @@
+<% layout('plantillas/molde')%>
+<div class="container">
+    <h1>Todas las publicaciones</h1>
+
+    <% for (let publicacion of publicaciones){%>
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-4">
+                <%if(publicacion.imagenes.length) {%>
+                <img class="img-fluid" alt="" src="<%=publicacion.imagenes[0].url%>">
+                <% }else {%>
+                <img class="img-fluid" alt=""
+                    src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/Hobbylink/lz8jjv2gyynjil7lswf4.png">
+                <% } %>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= publicacion.titulo %> </h5>
+
+                    <p class="card-text"><%= publicacion.descripcion %></p>
+  
+                    <a class="btn btn-primary" href="/publicaciones/<%=publicacion._id%>">Ver comentarios de <%=publicacion.titulo%></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }%>
+</div>

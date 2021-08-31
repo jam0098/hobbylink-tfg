@@ -1,0 +1,52 @@
+<% layout('plantillas/molde')%>
+<div class="row">
+    <h1 class="text-center">Editar publicación</h1>
+    <div class="col-md-6 offset-md-3">
+        <form action="/publicaciones/<%=publicacion._id%>?_method=PUT" method="POST" novalidate class="validated-form"
+            enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="titulo">Título</label>
+                <input class="form-control" type="text" id="titulo" name="publicacion[titulo]"
+                    value="<%=publicacion.titulo %>" required>
+                <div class="valid-feedback">
+                    ¡Válido!
+                </div>
+            </div>
+   
+
+
+            <div class="mb-3">
+                <label class="form-label" for="descripcion">Descripción</label>
+                <textarea class="form-control" type="text" id="descripcion" name="publicacion[descripcion]"
+                    required><%= publicacion.descripcion%></textarea>
+                <div class="valid-feedback">
+                    ¡Válido!
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="form-file custom-file">
+                    <input type="file" class="form-file-input" id="image" name="image" multiple>
+                    <label class="form-file-label" for="image">
+                        <span class="form-file-text custom-file-label">Añadir imágenes...</span>
+                        <span class="form-file-button">Explorar</span>
+                    </label>
+                </div>
+            </div>
+            <div class="mb-3">
+                <% publicacion.imagenes.forEach(function(img, i) {  %>
+
+                <img src="<%=img.thumbnail %>" class="img-thumbnail" alt="">
+                <div class="form-check-inline">
+                    <input type="checkbox" id="image-<%=i%>" name="deleteImagenes[]" value="<%=img.filename%>">
+                </div>
+                <label for="image-<%=i%>">Eliminar?</label>
+                <% })%>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-info">Actualizar publicación</button>
+            </div>
+        </form>
+        <a href="/publicaciones/<%= publicacion._id%>">Volver</a>
+
+    </div>
+</div>

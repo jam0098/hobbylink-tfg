@@ -1,0 +1,38 @@
+<% layout('plantillas/molde')%>
+<div class="row">
+    <h1 class="text-center">Nueva publicación</h1>
+    <div class="col-md-6 offset-md-3">
+        <form action="/publicaciones" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="titulo">Título</label>
+                <input class="form-control" type="text" id="titulo" name="publicacion[titulo]" required>
+                <div class="valid-feedback">
+                    ¡Válido!
+                </div>
+            </div>
+            
+
+            <div class="mb-3">
+                <label class="form-label" for="descripcion">Descripción</label>
+                <textarea class="form-control" type="text" id="descripcion" name="publicacion[descripcion]"
+                    required></textarea>
+                <div class="valid-feedback">
+                    ¡Válido!
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="form-file custom-file">
+                    <input type="file" class="form-file-input" id="image" name="image" multiple>
+                    <label class="form-file-label" for="image">
+                        <span class="form-file-text custom-file-label">Añadir imágenes...</span>
+                        <span class="form-file-button">Explorar</span>
+                    </label>
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Crear</button>
+            </div>
+        </form>
+        <a href="/publicaciones">Volver</a>
+    </div>
+</div>
